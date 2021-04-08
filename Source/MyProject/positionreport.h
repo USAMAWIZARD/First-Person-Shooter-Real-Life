@@ -9,7 +9,7 @@
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYPROJECT_API Upositionreport : public UActorComponent
-{
+{ 
 	GENERATED_BODY()
 
 public:	
