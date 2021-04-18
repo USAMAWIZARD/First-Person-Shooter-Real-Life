@@ -20,11 +20,6 @@ Upositionreport::Upositionreport()
 	// ...
 }
 
-void Upositionreport::RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4Endpoint& EndPt)
-{
-    //FString msg;
-    GLog->Logf(TEXT("Receiver msg"));
-}
 
 // Called when the game starts
 
@@ -35,11 +30,12 @@ void Upositionreport::BeginPlay()
 	// ...
 	FString objname= GetOwner()->GetName();
 	FString position = GetOwner()->GetTransform().GetLocation().ToString() ;
+
 	UE_LOG(LogTemp,Warning,TEXT("class name is %s at %s"),*objname,*position);
 
     FString TheIP = "192.168.0.105";
     FString Name = "whogivesa";
-    int ThePort = 6000;
+    int ThePort = 9005;
     FIPv4Address Addr; // = FIPv4Addre` ss(127,0,0,1);
     FIPv4Address::Parse(TheIP, Addr);
 
@@ -66,6 +62,26 @@ void Upositionreport::BeginPlay()
 
 }
 
+void Upositionreport::RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4Endpoint& EndPt)
+{
+    //FString msg;
+    GLog->Logf(TEXT("Receiver msg"));
+
+    uint8 data[512];
+    FMemory::Memzero(data, 512);
+    FMemory::Memcpy(data, ArrayReadPrt->GetData(), ArrayReadPrt->Num());
+    FString str = ((const char*)data);
+    FString substr = str.Mid(1,str.Len()-2) ;
+    TArray<FString> Parsed;
+    const TCHAR *divide = TEXT(",");
+    substr.ParseIntoArray(Parsed, divide,false);
+ 
+    FString trimed = Parsed[0].TrimStartAndEnd(); 
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
+    FRotator rotate = FRotator(0.0f,FCString::Atof(*trimed), 0.0f);
+    GetOwner()->SetActorRotation(rotate);
+            
+}
 
 
 
