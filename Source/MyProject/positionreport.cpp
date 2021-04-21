@@ -7,6 +7,7 @@
 #include "Runtime/Sockets/Public/SocketSubsystem.h"
 #include "IPAddress.h"
 #include<string.h>
+#include <Math.h>
 #include "Gameframework/Actor.h"
 
 FSocket* ListenSocket;
@@ -35,7 +36,7 @@ void Upositionreport::BeginPlay()
 
     FString TheIP = "192.168.0.105";
     FString Name = "whogivesa";
-    int ThePort = 9005;
+    int ThePort = 9004;
     FIPv4Address Addr; // = FIPv4Addre` ss(127,0,0,1);
     FIPv4Address::Parse(TheIP, Addr);
 
@@ -71,14 +72,22 @@ void Upositionreport::RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4E
     FMemory::Memzero(data, 512);
     FMemory::Memcpy(data, ArrayReadPrt->GetData(), ArrayReadPrt->Num());
     FString str = ((const char*)data);
-    FString substr = str.Mid(1,str.Len()-2) ;
     TArray<FString> Parsed;
     const TCHAR *divide = TEXT(",");
-    substr.ParseIntoArray(Parsed, divide,false);
- 
-    FString trimed = Parsed[0].TrimStartAndEnd(); 
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
-    FRotator rotate = FRotator(0.0f,FCString::Atof(*trimed), 0.0f);
+    str.ParseIntoArray(Parsed, divide,false);
+    FString trimedy = Parsed[2].TrimStartAndEnd();
+    FString trimedz = Parsed[1].TrimStartAndEnd();
+
+    float y=FCString::Atoi(*trimedy);
+    float z= FCString::Atoi(*trimedz);
+    float degree;
+    y = (y / 1024.0) / 0.4;
+    z = (z / 1024.0) / 0.4;
+
+    degree = atan2(-y, -z) * 57.2957795 + 180;
+
+  //  UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
+    FRotator rotate = FRotator(0.0f, 0.0f, degree-90);
     GetOwner()->SetActorRotation(rotate);
             
 }
