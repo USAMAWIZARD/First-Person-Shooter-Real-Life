@@ -27,7 +27,7 @@ Upositionreport::Upositionreport()
 void Upositionreport::BeginPlay()
 {
 	Super::BeginPlay();
-    
+
 	// ...
 	FString objname= GetOwner()->GetName();
 	FString position = GetOwner()->GetTransform().GetLocation().ToString() ;
@@ -36,7 +36,7 @@ void Upositionreport::BeginPlay()
 
     FString TheIP = "192.168.0.105";
     FString Name = "whogivesa";
-    int ThePort = 9004;
+    int ThePort = 9005;
     FIPv4Address Addr; // = FIPv4Addre` ss(127,0,0,1);
     FIPv4Address::Parse(TheIP, Addr);
 
@@ -75,21 +75,28 @@ void Upositionreport::RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4E
     TArray<FString> Parsed;
     const TCHAR *divide = TEXT(",");
     str.ParseIntoArray(Parsed, divide,false);
+    FString  trimed0 = Parsed[0];
+    FString trimedx = Parsed[1].TrimStartAndEnd();
     FString trimedy = Parsed[2].TrimStartAndEnd();
-    FString trimedz = Parsed[1].TrimStartAndEnd();
+    FString trimedz = Parsed[3].TrimStartAndEnd();
 
     float y=FCString::Atoi(*trimedy);
     float z= FCString::Atoi(*trimedz);
-    float degree;
-    y = (y / 1024.0) / 0.4;
-    z = (z / 1024.0) / 0.4;
+    if (trimed0.Equals("a"))
+    {
+        float degree;
+        y = (y / 1024.0) / 0.4;
+        z = (z / 1024.0) / 0.4;
 
-    degree = atan2(-y, -z) * 57.2957795 + 180;
+        degree = atan2(-y, -z) * 57.2957795 + 180;
 
-  //  UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
-    FRotator rotate = FRotator(0.0f, 0.0f, degree-90);
-    GetOwner()->SetActorRotation(rotate);
-            
+        //  UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
+        FRotator rotate = FRotator(0.0f, 0.0f, degree - 90);
+        GetOwner()->SetActorRotation(rotate);
+    }
+    else {
+    
+    }
 }
 
 
