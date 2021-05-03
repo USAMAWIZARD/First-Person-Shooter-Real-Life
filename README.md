@@ -21,10 +21,10 @@ https://user-images.githubusercontent.com/47350008/116870515-8e597100-abc7-11eb-
 
 ## Tech/framework used
 Ex. -
-
-<b>C++</b>
-<b>Unreal Engine</b>
-
+<li>
+<ul><b>C++</b></ul>
+<ul><b>Unreal Engine</b></ul>
+</li>
 ## Features
 this project uses UDP for low latancy data trasefer between devices.
 
