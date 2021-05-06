@@ -1,11 +1,11 @@
 ## First Person Shotter Real Life
 Build a game in  C++ Unreal Engine manuplating a wepeon in real time based on the accelorometer and magnetometer data from the mobile.
-I build a flutter udp client app which sends acclerometer and magnetometer data to specified IP Address and Port number.
+I have build a flutter udp client app which sends acclerometer and magnetometer data to specified IP Address and Port number.
 This raw data is being recived by the UDP server in Unreal Engine and based on the values the sensors orientation of the gun is manuplated.
-i am thinking of making something like where user can where a VR headset and see around in a 360 degree 3D enviorment and hold a mobile and point it in a 3D world and the gun's orientation will be manuplated based on mobile's orientation user can also shoot  the bots in game.
+i am thinking of making something like where user can where a VR headset and see around in a 360 degree 3D enviorment and hold a mobile and point it in a 3D world and the gun's orientation will be manuplated based on mobile's orientation user can also shoot the bots in game.
 
 ## Motivation
-One Day I was just playing around with my little brother he was pointing his hand making  gun guesture against me and yelling the gun shooting noices.
+One Day I was just playing with my little brother he was pointing his hand making  gun guesture against me and yelling the gun shooting noices.
 so i thought why not make someting similar to this so i came up with an idea  of  using a mobile as a gun and manuplating the gun object in the game based on mobile's orientation.
 
 
