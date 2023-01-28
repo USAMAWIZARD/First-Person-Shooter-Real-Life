@@ -48,8 +48,6 @@ void Upositionreport::BeginPlay()
     int32 BufferSize = 2 * 1024 * 1024;
 
     ListenSocket = FUdpSocketBuilder(*Name)
-        .AsNonBlocking()
-        .AsReusable()
         .BoundToEndpoint(EndPoint)
         .Build();
 
@@ -75,28 +73,26 @@ void Upositionreport::RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4E
     TArray<FString> Parsed;
     const TCHAR *divide = TEXT(",");
     str.ParseIntoArray(Parsed, divide,false);
-    FString  trimed0 = Parsed[0];
-    FString trimedx = Parsed[1].TrimStartAndEnd();
-    FString trimedy = Parsed[2].TrimStartAndEnd();
-    FString trimedz = Parsed[3].TrimStartAndEnd();
-
-    float y=FCString::Atoi(*trimedy);
-    float z= FCString::Atoi(*trimedz);
-    if (trimed0.Equals("a"))
+    FString  trimed0 = Parsed[0].TrimStartAndEnd();
+    if (!trimed0.Equals("s"))
     {
-        float degree;
-        y = (y / 1024.0) / 0.4;
-        z = (z / 1024.0) / 0.4;
-
-        degree = atan2(-y, -z) * 57.2957795 + 180;
-
-        //  UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
-        FRotator rotate = FRotator(0.0f, 0.0f, degree - 90);
-        GetOwner()->SetActorRotation(rotate);
+        UDPReceiver->Stop();
+        return;
     }
-    else {
+    FString str_yaw = Parsed[1].TrimStartAndEnd();
+    FString str_pitch = Parsed[2].TrimStartAndEnd();
+    FString str_roll = Parsed[3].TrimStartAndEnd();
+
+    yaw=FCString::Atoi(*str_yaw);
+    pitch= FCString::Atoi(*str_pitch);
+    roll= FCString::Atoi(*str_roll);
+
+
+    //  UE_LOG(LogTemp, Warning, TEXT("%s"), *trimed);
+    FRotator rotate = FRotator(pitch,yaw,roll);
+    GetOwner()->SetActorRotation(rotate);
     
-    }
+  
 }
 
 

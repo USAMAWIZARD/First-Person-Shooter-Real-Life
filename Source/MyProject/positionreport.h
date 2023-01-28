@@ -17,16 +17,21 @@ class MYPROJECT_API Upositionreport : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	Upositionreport();
-	
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "roll")
+	float roll;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "pitch")
+	float yaw;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "yaw")
+	float pitch;
 protected:
 	// Called when the game starts
 //	void Recv(const FArrayReaderPtr& ArrayReaderPtr, const FIPv4Endpoint& EndPt);
 	virtual void BeginPlay() override;
 
 public:	
+
 	// Called every frame
 	virtual void RecvData(const FArrayReaderPtr& ArrayReadPrt, const FIPv4Endpoint& EndPt);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-		
+
 };
